@@ -81,7 +81,7 @@ document.querySelectorAll('.observer-target').forEach((section) => {
   sectionObserver.observe(section);
 });
 
-// 5. 프로젝트 목록 (로컬 이미지 데이터 결합)
+// 5. 프로젝트 목록 (로컬 이미지 2종 확정 렌더링)
 const localProjects = [
   {
     name: 'Codyssey Study',
@@ -101,22 +101,22 @@ const localProjects = [
   }
 ];
 
-const renderProjects = (projects) => {
-  projectsContainer.innerHTML = projects
+const renderProjects = () => {
+  if (!projectsContainer) return;
+
+  projectsContainer.innerHTML = localProjects
     .map(({ name, description, html_url, stargazers_count, language, image }) => `
       <article class="project-card">
-        ${image ? `
-          <div class="project-img-wrap" style="width: 100%; height: 180px; overflow: hidden; border-radius: 8px; margin-bottom: 12px;">
-            <img src="${image}" alt="${name} 썸네일" style="width: 100%; height: 100%; object-fit: cover;">
-          </div>
-        ` : ''}
+        <div class="project-img-wrap" style="width: 100%; height: 180px; overflow: hidden; border-radius: 8px; margin-bottom: 12px;">
+          <img src="${image}" alt="${name} 썸네일" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
         <div>
           <h3 class="project-title">${name}</h3>
-          <p class="project-desc">${description || '저장소 설명이 등록되지 않았습니다.'}</p>
+          <p class="project-desc">${description}</p>
         </div>
         <div>
           <div class="project-meta">
-            <span>🔧 ${language || '기타'}</span>
+            <span>🔧 ${language}</span>
             <span>⭐ ${stargazers_count}</span>
           </div>
           <a href="${html_url}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">저장소 보기</a>
@@ -124,47 +124,6 @@ const renderProjects = (projects) => {
       </article>
     `)
     .join('');
-};
-
-const fetchProjects = async () => {
-  // 로컬 프로젝트 기본 렌더링 (이미지 즉시 표시)
-  renderProjects(localProjects);
-
-  try {
-    const response = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=6`);
-    if (!response.ok) return;
-
-    const repos = await response.json();
-    if (!repos || repos.length === 0) return;
-
-    // GitHub 레포지토리 정보에 준비된 로컬 이미지 매핑
-    const combinedProjects = repos.map((repo) => {
-      let matchedImage = '';
-      if (repo.name.toLowerCase().includes('study') || repo.name.toLowerCase().includes('codyssey')) {
-        matchedImage = 'images/Codyssey%20Study.png';
-      } else if (repo.name.toLowerCase().includes('gauss')) {
-        matchedImage = 'images/Team%20GaussX.png';
-      }
-
-      return {
-        name: repo.name,
-        description: repo.description,
-        html_url: repo.html_url,
-        language: repo.language,
-        stargazers_count: repo.stargazers_count,
-        image: matchedImage
-      };
-    });
-
-    // 만약 매핑된 이미지가 없다면 준비한 로컬 프로젝트 카드를 유지/결합
-    const hasImageProject = combinedProjects.some(p => p.image);
-    if (hasImageProject) {
-      renderProjects(combinedProjects);
-    }
-  } catch (error) {
-    // API 제한 또는 네트워크 에러 시에도 기본 로컬 카드 유지
-    console.warn('GitHub API 연동 실패, 기본 프로젝트를 표시합니다:', error.message);
-  }
 };
 
 // 6. Contact 폼 검증 (입력 -> 유효성 상태 판단 -> 에러 렌더링)
@@ -228,4 +187,4 @@ contactForm.addEventListener('submit', (event) => {
 
 // 초기 실행
 initTheme();
-fetchProjects();
+renderProjects();
