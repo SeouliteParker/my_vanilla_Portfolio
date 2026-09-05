@@ -81,13 +81,13 @@ document.querySelectorAll('.observer-target').forEach((section) => {
   sectionObserver.observe(section);
 });
 
-// 5. 프로젝트 목록 (로컬 이미지 2종 확정 렌더링)
+// 5. 프로젝트 목록 (소문자/하이픈 파일명 적용)
 const localProjects = [
   {
     name: 'Codyssey Study',
     description: '협업 및 학습 기록 관리를 위한 스터디 플랫폼 프로젝트입니다.',
     html_url: 'https://github.com/SeouliteParker',
-    image: 'images/Codyssey%20Study.png',
+    image: 'images/codyssey-study.png',
     language: 'JavaScript',
     stargazers_count: 0
   },
@@ -95,7 +95,7 @@ const localProjects = [
     name: 'Team GaussX',
     description: '팀 협업 및 데이터 분석·시각화 환경을 구축한 프로젝트입니다.',
     html_url: 'https://github.com/SeouliteParker',
-    image: 'images/Team%20GaussX.png',
+    image: 'images/team-gaussx.png',
     language: 'JavaScript',
     stargazers_count: 0
   }
