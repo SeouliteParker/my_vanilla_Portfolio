@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SeouliteParker | Vanilla Portfolio</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header" id="header">
+    <div class="nav-container">
+      <a href="#hero" class="logo">SeouliteParker</a>
+      <div class="nav-actions">
+        <button id="theme-toggle" class="icon-btn" aria-label="다크 모드 전환">🌓</button>
+        <button id="hamburger-btn" class="hamburger-btn" aria-label="메뉴 토글">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+      <nav class="nav-menu" id="nav-menu">
+        <ul class="nav-list">
+          <li><a href="#hero" class="nav-link">Home</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="#skills" class="nav-link">Skills</a></li>
+          <li><a href="#projects" class="nav-link">Projects</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section observer-target">
+      <div class="container hero-content">
+        <h1>안녕하세요!<br>사용자 중심의 가치를 만드는 <span class="accent-text">SeouliteParker</span>입니다.</h1>
+        <p>웹 표준 기술과 직관적인 인터랙션으로 견고한 프론트엔드 환경을 구축합니다.</p>
+        <div class="hero-cta">
+          <a href="#projects" class="btn btn-primary">프로젝트 둘러보기</a>
+          <a href="#contact" class="btn btn-secondary">문의하기</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section observer-target">
+      <div class="container">
+        <h2 class="section-title">About Me</h2>
+        <div class="about-grid">
+          <div class="about-img-wrap">
+            <img src="images/profile.jpg" alt="SeouliteParker 프로필 이미지" onerror="this.src='https://via.placeholder.com/260'">
+          </div>
+          <div class="about-text">
+            <p>브라우저 동작 원리와 이벤트 기반 데이터 흐름에 깊은 관심을 둔 개발자입니다.</p>
+            <p>외부 프레임워크를 도입하기 전 순수 HTML, CSS, JavaScript의 기초 체력을 탄탄히 다지고, 유지보수성과 웹 접근성이 높은 시맨틱 마크업을 지향합니다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills-section observer-target">
+      <div class="container">
+        <h2 class="section-title">Skills</h2>
+        <div class="skills-grid">
+          <article class="skill-card">
+            <h3>Web Standards</h3>
+            <p>HTML5 시맨틱 태그 구조화, 웹 표준 및 접근성 준수, CSS3 반응형 레이아웃 설계</p>
+          </article>
+          <article class="skill-card">
+            <h3>Layout Systems</h3>
+            <p>CSS Flexbox 1차원 정렬, CSS Grid 2차원 반응형 카드 뷰 구현, 미디어 쿼리 최적화</p>
+          </article>
+          <article class="skill-card">
+            <h3>Vanilla JavaScript</h3>
+            <p>ES6+ 문법, DOM 이벤트 핸들링, 비동기 통신(Fetch/Async/Await), LocalStorage 상태 제어</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects-section observer-target">
+      <div class="container">
+        <h2 class="section-title">Projects</h2>
+        <div id="projects-container" class="projects-grid">
+          <!-- JS를 통해 로딩/에러/성공/빈 데이터 상태가 동적으로 렌더링됩니다 -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section observer-target">
+      <div class="container">
+        <h2 class="section-title">Contact</h2>
+        <form id="contact-form" class="contact-form" novalidate>
+          <div class="form-group">
+            <label for="contact-name">이름</label>
+            <input type="text" id="contact-name" name="name" placeholder="홍길동">
+            <span class="error-msg" id="name-error"></span>
+          </div>
+          <div class="form-group">
+            <label for="contact-email">이메일</label>
+            <input type="email" id="contact-email" name="email" placeholder="example@domain.com">
+            <span class="error-msg" id="email-error"></span>
+          </div>
+          <div class="form-group">
+            <label for="contact-message">메시지</label>
+            <textarea id="contact-message" name="message" rows="5" placeholder="프로젝트 제안이나 문의사항을 자유롭게 작성해 주세요."></textarea>
+            <span class="error-msg" id="message-error"></span>
+          </div>
+          <button type="submit" class="btn btn-primary form-submit-btn">메시지 전송</button>
+          <div id="form-success-msg" class="success-msg"></div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <p>&copy; 2026 SeouliteParker. All rights reserved.</p>
+      <ul class="social-links">
+        <li><a href="https://github.com/SeouliteParker" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+        <li><a href="https://github.com/SeouliteParker/my_vanilla_Portfolio" target="_blank" rel="noopener noreferrer">Repository</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Scroll-to-Top Button -->
+  <button id="scroll-top-btn" class="scroll-top-btn" aria-label="최상단으로 이동">↑</button>
+</body>
+</html>
