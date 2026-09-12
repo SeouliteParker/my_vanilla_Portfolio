@@ -24,3 +24,14 @@
 ## 화면 구성
 - 데스크톱, 태블릿, 모바일 뷰 지원
 - 다크 모드 / 라이트 모드 지원
+
+## 스크린샷
+
+### 데스크톱
+![데스크톱 화면](images/screenshot-desktop.png)
+
+### 모바일
+![모바일 화면](images/screenshot-mobile.png)
+
+### 다크 모드
+![다크모드 화면](images/screenshot-dark.png)

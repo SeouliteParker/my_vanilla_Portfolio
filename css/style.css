@@ -12,6 +12,22 @@
   --error-color: #ef4444;
   --success-color: #10b981;
   --transition: all 0.3s ease;
+
+  /* 폰트 변수 */
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-size-sm: 0.9rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 2.1rem;
+  --font-size-xxl: 3.2rem;
+  --font-size-hero: 2.3rem;
+
+  /* 간격 변수 */
+  --spacing-xs: 8px;
+  --spacing-sm: 16px;
+  --spacing-md: 24px;
+  --spacing-lg: 45px;
+  --spacing-xl: 90px;
 }
 
 [data-theme="dark"] {
@@ -38,7 +54,7 @@ html {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-family);
   background-color: var(--bg-color);
   color: var(--text-color);
   line-height: 1.6;
@@ -52,13 +68,13 @@ body {
 }
 
 section {
-  padding: 90px 0;
+  padding: var(--spacing-xl) 0;
 }
 
 .section-title {
   text-align: center;
-  font-size: 2.1rem;
-  margin-bottom: 45px;
+  font-size: var(--font-size-xl);
+  margin-bottom: var(--spacing-lg);
 }
 
 .accent-text {
@@ -205,7 +221,7 @@ section {
 }
 
 .hero-content h1 {
-  font-size: 2.3rem;
+  font-size: var(--font-size-hero);
   margin-bottom: 20px;
 }
 
@@ -217,7 +233,7 @@ section {
 
 .hero-cta {
   display: flex;
-  gap: 16px;
+  gap: var(--spacing-sm);
   justify-content: center;
 }
 
@@ -249,12 +265,12 @@ section {
 .skills-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 24px;
+  gap: var(--spacing-md);
 }
 
 .skill-card {
   background-color: var(--card-bg);
-  padding: 28px;
+  padding: var(--spacing-md);
   border-radius: 8px;
   border: 1px solid var(--border-color);
   box-shadow: var(--shadow);
@@ -274,7 +290,7 @@ section {
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
+  gap: var(--spacing-md);
 }
 
 /* Projects 로딩/에러/빈 상태 */
@@ -309,7 +325,7 @@ section {
   background-color: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: 8px;
-  padding: 24px;
+  padding: var(--spacing-md);
   box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
@@ -322,7 +338,7 @@ section {
 }
 
 .project-title {
-  font-size: 1.25rem;
+  font-size: var(--font-size-lg);
   margin-bottom: 10px;
 }
 
@@ -374,7 +390,7 @@ section {
   border-radius: 6px;
   background-color: var(--card-bg);
   color: var(--text-color);
-  font-size: 1rem;
+  font-size: var(--font-size-base);
 }
 
 .form-group input:focus,
@@ -404,7 +420,7 @@ section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: var(--spacing-sm);
 }
 
 .social-links {
@@ -501,6 +517,6 @@ section {
 
 @media (min-width: 1024px) {
   .hero-content h1 {
-    font-size: 3.2rem;
+    font-size: var(--font-size-xxl);
   }
 }
