@@ -175,6 +175,23 @@ const validateEmail = (email) => {
   return emailRegex.test(email);
 };
 
+// input 이벤트: 타이핑하는 동안 해당 필드의 에러 상태를 실시간으로 해제
+const nameInputEl = document.querySelector('#contact-name');
+const emailInputEl = document.querySelector('#contact-email');
+const messageInputEl = document.querySelector('#contact-message');
+
+const clearFieldError = (inputEl, errorEl) => {
+  inputEl.addEventListener('input', () => {
+    if (inputEl.value.trim()) {
+      errorEl.textContent = '';
+    }
+  });
+};
+
+clearFieldError(nameInputEl, document.querySelector('#name-error'));
+clearFieldError(emailInputEl, document.querySelector('#email-error'));
+clearFieldError(messageInputEl, document.querySelector('#message-error'));
+
 contactForm.addEventListener('submit', (event) => {
   event.preventDefault();
 
