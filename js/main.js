@@ -169,7 +169,11 @@ const fetchProjects = async () => {
   }
 };
 
-// 6. Contact 폼 검증 (입력 -> 유효성 상태 판단 -> 에러 렌더링)
+// 6. Contact 폼 검증 및 전송 (입력 -> 유효성 상태 판단 -> 에러 렌더링 -> 이메일 전송)
+
+// Web3Forms access key
+const WEB3FORMS_ACCESS_KEY = '5c8253fa-52e2-4334-ba38-53d5f2031200';
+
 const validateEmail = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
@@ -233,13 +237,40 @@ contactForm.addEventListener('submit', (event) => {
     messageError.textContent = '';
   }
 
-  // 검증 통과 처리
+  // 검증 통과 시: Web3Forms로 실제 이메일 전송
   if (isValid) {
-    formSuccess.textContent = '메시지가 성공적으로 전송되었습니다!';
-    contactForm.reset();
-    setTimeout(() => {
-      formSuccess.textContent = '';
-    }, 4000);
+    const submitBtn = contactForm.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    formSuccess.textContent = '전송 중...';
+
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        access_key: WEB3FORMS_ACCESS_KEY,
+        name: nameInput.value.trim(),
+        email: emailInput.value.trim(),
+        message: messageInput.value.trim()
+      })
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          formSuccess.textContent = '메시지가 성공적으로 전송되었습니다!';
+          contactForm.reset();
+        } else {
+          formSuccess.textContent = '전송에 실패했습니다. 다시 시도해 주세요.';
+        }
+      })
+      .catch(() => {
+        formSuccess.textContent = '전송에 실패했습니다. 다시 시도해 주세요.';
+      })
+      .finally(() => {
+        submitBtn.disabled = false;
+        setTimeout(() => {
+          formSuccess.textContent = '';
+        }, 4000);
+      });
   } else {
     formSuccess.textContent = '';
   }
