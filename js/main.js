@@ -81,42 +81,57 @@ document.querySelectorAll('.observer-target').forEach((section) => {
   sectionObserver.observe(section);
 });
 
-// 5. 프로젝트 목록 (소문자/하이픈 파일명 적용)
-const localProjects = [
-  {
-    name: 'Codyssey Study',
-    description: '협업 및 학습 기록 관리를 위한 스터디 플랫폼 프로젝트입니다.',
-    html_url: 'https://github.com/SeouliteParker',
-    image: 'images/codyssey-study.png',
-    language: 'JavaScript',
-    stargazers_count: 0
-  },
-  {
-    name: 'Team GaussX',
-    description: '팀 협업 및 데이터 분석·시각화 환경을 구축한 프로젝트입니다.',
-    html_url: 'https://github.com/SeouliteParker',
-    image: 'images/team-gaussx.png',
-    language: 'JavaScript',
-    stargazers_count: 0
-  }
-];
+// 5. 프로젝트 목록 (GitHub API 연동: 로딩 -> 성공/에러/빈 상태 -> 렌더링)
 
-const renderProjects = () => {
+// 로딩 상태 UI
+const renderProjectsLoading = () => {
+  if (!projectsContainer) return;
+  projectsContainer.innerHTML = `
+    <div class="projects-status">
+      <div class="spinner" aria-hidden="true"></div>
+      <p>프로젝트를 불러오는 중...</p>
+    </div>
+  `;
+};
+
+// 에러 상태 UI (+ 재시도 버튼)
+const renderProjectsError = () => {
+  if (!projectsContainer) return;
+  projectsContainer.innerHTML = `
+    <div class="projects-status">
+      <p>프로젝트를 불러올 수 없습니다.</p>
+      <button type="button" id="projects-retry-btn" class="btn btn-secondary">다시 시도</button>
+    </div>
+  `;
+
+  const retryBtn = document.querySelector('#projects-retry-btn');
+  retryBtn.addEventListener('click', fetchProjects);
+};
+
+// 빈 상태 UI
+const renderProjectsEmpty = () => {
+  if (!projectsContainer) return;
+  projectsContainer.innerHTML = `
+    <div class="projects-status">
+      <p>표시할 프로젝트가 없습니다.</p>
+    </div>
+  `;
+};
+
+// 성공 상태 UI: repos 배열 -> 카드 리스트
+const renderProjectCards = (repos) => {
   if (!projectsContainer) return;
 
-  projectsContainer.innerHTML = localProjects
-    .map(({ name, description, html_url, stargazers_count, language, image }) => `
+  projectsContainer.innerHTML = repos
+    .map(({ name, description, html_url, stargazers_count, language }) => `
       <article class="project-card">
-        <div class="project-img-wrap" style="width: 100%; height: 180px; overflow: hidden; border-radius: 8px; margin-bottom: 12px;">
-          <img src="${image}" alt="${name} 썸네일" style="width: 100%; height: 100%; object-fit: cover;">
-        </div>
         <div>
           <h3 class="project-title">${name}</h3>
-          <p class="project-desc">${description}</p>
+          <p class="project-desc">${description ? description : '설명이 등록되지 않은 저장소입니다.'}</p>
         </div>
         <div>
           <div class="project-meta">
-            <span>🔧 ${language}</span>
+            <span>🔧 ${language ? language : 'N/A'}</span>
             <span>⭐ ${stargazers_count}</span>
           </div>
           <a href="${html_url}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">저장소 보기</a>
@@ -124,6 +139,34 @@ const renderProjects = () => {
       </article>
     `)
     .join('');
+};
+
+// GitHub API 호출: 로딩 -> fetch -> 성공/빈/에러 상태 분기
+const fetchProjects = async () => {
+  renderProjectsLoading();
+
+  try {
+    const response = await fetch(
+      `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=100`
+    );
+
+    // 레이트 리밋(403) 등 HTTP 에러 상태 처리
+    if (!response.ok) {
+      throw new Error(`GitHub API 요청 실패: ${response.status}`);
+    }
+
+    const repos = await response.json();
+
+    if (!Array.isArray(repos) || repos.length === 0) {
+      renderProjectsEmpty();
+      return;
+    }
+
+    renderProjectCards(repos);
+  } catch (error) {
+    console.error('프로젝트를 불러오는 중 오류가 발생했습니다.', error);
+    renderProjectsError();
+  }
 };
 
 // 6. Contact 폼 검증 (입력 -> 유효성 상태 판단 -> 에러 렌더링)
@@ -187,4 +230,4 @@ contactForm.addEventListener('submit', (event) => {
 
 // 초기 실행
 initTheme();
-renderProjects();
+fetchProjects();
